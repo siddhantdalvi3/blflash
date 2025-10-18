@@ -145,7 +145,7 @@ impl Boot2Opt {
         let ro_params = self
             .dtb
             .map(read)
-            .unwrap_or_else(|| Ok(bl602::RO_PARAMS.to_vec()))?;
+            .unwrap_or_else(|| Ok(bl602::RO_PARAMS.as_ref().as_ref().expect("Failed to load device tree").to_vec()))?;
 
         let segments = chip.with_boot2(partition_cfg, boot_header_cfg, ro_params, image)?;
 

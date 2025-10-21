@@ -28,13 +28,13 @@ pub static RO_PARAMS: Lazy<Result<Vec<u8>, io::Error>> = Lazy::new(|| {
         _ => "$BL60X_SDK_PATH/image_conf/bl602/bl_factory_params_PineCone_40M.dts",
     };
 
-    let dts_file_cow = &shellexpand::full(dts_file_name).expect("Could not expand environment vairables");
+    let dts_file_cow = &shellexpand::full(dts_file_name).expect("Could not expand environment variables. Is $BL60X_SDK_PATH set?");
 
     // Create DTB path
     const DTB_FILE: &str = "/tmp/bl602.dtb";
 
     // Convert DTS to DTB
-    println!("Converting device tree file, any following warning are from the device tree compiler");
+    println!("Converting device tree file, any following warnings are from the device tree compiler");
     let status = Command::new("dtc")
         .arg("-I")
         .arg("dts")
@@ -48,7 +48,7 @@ pub static RO_PARAMS: Lazy<Result<Vec<u8>, io::Error>> = Lazy::new(|| {
 
     // Check result
     if !status.success() {
-        panic!("Can not create binary device tree file! Make sure {:?} exists and 'device-tree-compiler' is installed!", dts_file_cow.as_ref());
+        panic!("Could not create binary device tree file! Make sure {:?} exists and 'device-tree-compiler' is installed!", dts_file_cow.as_ref());
     }
 
     // Read created DTB file

@@ -15,6 +15,7 @@ fn get_bar(len: u64) -> ProgressBar {
     bar.set_style(
         ProgressStyle::default_bar()
             .template("  {wide_bar} {bytes}/{total_bytes} {bytes_per_sec} {eta}  ")
+            .expect("Invalid template")
             .progress_chars("#>-"),
     );
     bar
